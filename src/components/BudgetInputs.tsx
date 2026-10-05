@@ -2,12 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Trash2 } from "lucide-react";
-
-interface Expense {
-  id: string;
-  name: string;
-  amount: number;
-}
+import { CATEGORIES, Category, Expense } from "@/lib/budget";
 
 interface BudgetInputsProps {
   income: number;
@@ -19,10 +14,11 @@ interface BudgetInputsProps {
 const BudgetInputs = ({ income, setIncome, expenses, setExpenses }: BudgetInputsProps) => {
   const [expName, setExpName] = useState("");
   const [expAmount, setExpAmount] = useState("");
+  const [category, setCategory] = useState<Category>("Food & Groceries");
 
   const addExpense = () => {
-    if (!expName.trim() || !expAmount) return;
-    setExpenses([...expenses, { id: crypto.randomUUID(), name: expName.trim(), amount: Number(expAmount) }]);
+    if (!expAmount) return;
+    setExpenses([...expenses, { id: crypto.randomUUID(), name: expName.trim() || category, amount: Number(expAmount), category }]);
     setExpName("");
     setExpAmount("");
   };
@@ -48,6 +44,13 @@ const BudgetInputs = ({ income, setIncome, expenses, setExpenses }: BudgetInputs
       {/* Expenses */}
       <div className="gradient-card rounded-2xl p-6 shadow-card border border-border">
         <h3 className="text-lg font-semibold font-display text-foreground mb-4">Add Expense</h3>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value as Category)}
+          className="w-full mb-2 h-10 rounded-xl border border-input bg-background px-3 text-sm text-foreground"
+        >
+          {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+        </select>
         <div className="flex gap-2 mb-4">
           <Input
             placeholder="Expense name"
