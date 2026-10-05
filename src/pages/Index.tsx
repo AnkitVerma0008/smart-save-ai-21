@@ -4,12 +4,9 @@ import DashboardCards from "@/components/DashboardCards";
 import BudgetInputs from "@/components/BudgetInputs";
 import AISuggestion from "@/components/AISuggestion";
 import BudgetChart from "@/components/BudgetChart";
-
-interface Expense {
-  id: string;
-  name: string;
-  amount: number;
-}
+import ExpenseInsights from "@/components/ExpenseInsights";
+import InvestmentSuggestions from "@/components/InvestmentSuggestions";
+import { Expense } from "@/lib/budget";
 
 const Index = () => {
   const [income, setIncome] = useState(0);
@@ -37,6 +34,9 @@ const Index = () => {
           <AISuggestion income={income} savings={savings} />
           <BudgetChart income={income} expenses={expenses} savings={savings} />
         </div>
+
+        <ExpenseInsights income={income} expenses={expenses} />
+        <InvestmentSuggestions income={income} savings={savings} />
       </main>
 
       <footer className="text-center py-8 text-sm text-muted-foreground">
